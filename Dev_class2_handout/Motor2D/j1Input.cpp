@@ -135,6 +135,10 @@ bool j1Input::CleanUp()
 {
 	LOG("Quitting SDL event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
+
+	//delete keyState;
+	//delete mouse_buttons;
+
 	return true;
 }
 

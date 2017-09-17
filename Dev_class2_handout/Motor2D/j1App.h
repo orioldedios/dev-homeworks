@@ -70,7 +70,7 @@ public:
 	j1Scene*			scene;
 
 
-private:
+public:
 
 	p2List<j1Module*>	modules;
 	uint				frames;

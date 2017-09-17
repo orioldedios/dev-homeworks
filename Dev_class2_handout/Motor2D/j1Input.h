@@ -1,11 +1,12 @@
 #ifndef __j1INPUT_H__
 #define __j1INPUT_H__
 
+#include "j1App.h"
 #include "j1Module.h"
 
-#define NUM_KEYS 352
-#define NUM_MOUSE_BUTTONS 5
-#define LAST_KEYS_PRESSED_BUFFER 50
+#define NUM_KEYS 352//App->mynode.child("num_keys").text().as_int()
+#define NUM_MOUSE_BUTTONS 5//App->mynode.child("num_mouse_buttons").text().as_int()
+#define LAST_KEYS_PRESSED_BUFFER 50//App->mynode.child("last_keys_pressed_buffer").text().as_int()
 
 struct SDL_Rect;
 
@@ -73,6 +74,8 @@ private:
 	bool		windowEvents[WE_COUNT];
 	j1KeyState	keyState[NUM_KEYS];
 	j1KeyState	mouse_buttons[NUM_MOUSE_BUTTONS];
+	//j1KeyState*	keyState = new j1KeyState[NUM_KEYS];
+	//j1KeyState*	mouse_buttons = new j1KeyState[NUM_MOUSE_BUTTONS];
 	int			mouse_motion_x;
 	int			mouse_motion_y;
 	int			mouse_x;

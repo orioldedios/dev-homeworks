@@ -1,9 +1,10 @@
 #ifndef __j1AUDIO_H__
 #define __j1AUDIO_H__
 
+#include "j1App.h"
 #include "j1Module.h"
 
-#define DEFAULT_MUSIC_FADE_TIME 2.0f
+#define DEFAULT_MUSIC_FADE_TIME App->mynode.child("audio").child("default_music_fade_time").text().as_float()
 
 struct _Mix_Music;
 struct Mix_Chunk;

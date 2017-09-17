@@ -2,7 +2,28 @@
 
 
 <config>
-  <name>Game</name>
+ 
+  <name>My super awesome game with XML</name>
+
+  <window>
+  <title>Title</title>
+   <fullscreen>false</fullscreen>
+   <borderless>false</borderless>
+   <resizable>true</resizable>
+   <fullscreen_window>false</fullscreen_window>
+   <width>1024</width>
+   <height>768</height>
+   <scale>1</scale>
+  </window>
+
+  <audio>
+    <default_music_fade_time>2.0f</default_music_fade_time>
+  </audio>
+
+  <input>
+    <num_keys>352</num_keys>
+    <num_mouse_buttons>5</num_mouse_buttons>
+    <last_keys_pressed_buffer>50</last_keys_pressed_buffer>
+  </input>
   
 </config>
-
