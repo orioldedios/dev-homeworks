@@ -55,7 +55,7 @@ void j1App::AddModule(j1Module* module)
 }
 
 // Called before render is available
-bool j1App::Awake()
+bool j1App::Awake(pugi::xml_node nodeptr)
 {
 	// TODO 3: Load config.xml file using load_file() method from the xml_document class.
 	// If everything goes well, load the top tag inside the xml_node property
@@ -80,7 +80,13 @@ bool j1App::Awake()
 		// If the section with the module name exist in config.xml, fill the pointer with the address of a valid xml_node
 		// that can be used to read all variables from that section. Send nullptr if the section does not exist in config.xml
 
-		
+		if (strcmp(nodeptr.child_value(item),mynode.child_value(item))!=0)
+		{
+			nodeptr = mynode;
+		}
+		else {
+			nodeptr = nullptr;
+		}
 
 		ret = item->data->Awake();
 		item = item->next;
