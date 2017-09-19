@@ -37,7 +37,7 @@ public:
 	virtual ~j1Input();
 
 	// Called before render is available
-	bool Awake();
+	bool Awake(pugi::xml_node* nodeptr = nullptr);
 
 	// Called before the first frame
 	bool Start();

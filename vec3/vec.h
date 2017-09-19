@@ -1,14 +1,13 @@
 #ifndef _VEC_H_
 
-#define uint unsigned int
 
 class Vec {
 
 public:
 
-	uint vec[3];
+	int vec[3];
 
-	Vec(uint x, uint y, uint z) {
+	Vec(int x, int y, int z) {
 
 
 		vec[0] = x;
@@ -24,54 +23,57 @@ public:
 	~Vec() {}
 
 	Vec operator + (const Vec &vecaux) const{
-		Vec vecaux1;
-		for (uint i = 0; i < 3; i++)
-		{
-			vecaux1.vec[i]=vec[i] + vecaux[i];
-		}
-		return vecaux1;
+		//Vec aux;
+
+		//for (int i = 0; i < 3; i++)
+		//{
+		//	aux.vec[i]=vec[i] + vecaux.vec[i];
+		//}
+		Vec aux(vec[0] + vecaux.vec[0], vec[1] + vecaux.vec[1], vec[2] + vecaux.vec[2]);
+		return aux;
 	}
 
 	Vec operator -(const Vec &vecaux)const {
-		Vec vecaux1;
-		for (uint i = 0; i < 3; i++)
+		Vec aux;
+
+		for (int i = 0; i < 3; i++)
 		{
-			vec[i] -= vecaux[i];
+			aux.vec[i] = vec[i] - vecaux.vec[i];
 		}
-		return vecaux1;
+		return aux;
 
 	}
 
-	uint operator+=(uint inc) {
-		for (uint i = 0; i < 3; i++)
+	void operator+=(const Vec &aux) {
+		for (int i = 0; i < 3; i++)
 		{
-			vec[i] += inc;
+			vec[i] += aux.vec[i];
 		}
 	}
 
-	uint operator-=(uint dec) {
-		for (uint i = 0; i < 3; i++)
+	void operator-=(const Vec &aux) {
+		for (int i = 0; i < 3; i++)
 		{
-			vec[i] -= dec;
+			vec[i] -= aux.vec[i];
 		}
 	}
 
-	uint operator * (uint scalar) {
-		for (uint i = 0; i < 3; i++)
+	void operator * (int scalar) {
+		for (int i = 0; i < 3; i++)
 		{
-			vec[i] = vec[i] * scalar;
+			vec[i] *= scalar;
 		}
 	}
 
 	void reset() {
-		for (uint i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			vec[i] = 0;
 		}
 	}
 
 	void print() {
-		for (uint i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			cout << vec[i] << endl;
 		}

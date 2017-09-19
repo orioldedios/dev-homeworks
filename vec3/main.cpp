@@ -6,35 +6,28 @@ using namespace std;
 
 int main() {
 
-	uint inc = 1;
-	uint dec = 1;
-	uint mul = 2;
-
 	Vec  myvec(1, 2, 3);
 	Vec  myvec2(10, 9, 8);
+	
 
+	//Vec result=myvec + myvec2;
+	//result.print();
 
-	myvec.operator+(myvec2);
-	myvec.print();
-	myvec.reset();
+	//Vec result = myvec - myvec2;
+	//result.print();
 
-	myvec.operator-(myvec2);
-	myvec.print();
-	myvec.reset();
+	//myvec += myvec2;
+	//myvec.print();
 
-	myvec.operator+=(inc);
-	myvec.print();
-	myvec.reset();
+	//myvec -= myvec2;
+	//myvec.print();
 
-	myvec.operator-=(dec);
-	myvec.print();
-	myvec.reset();
+	//myvec * 9;
+	//myvec.print();
 
-	myvec.operator*(mul);
-	myvec.print();
-	myvec.reset();
+	//myvec.reset();
+	//myvec.print();
 
-	myvec.print();
 
 	system("pause");
 	return 0;
