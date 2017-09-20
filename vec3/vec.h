@@ -22,6 +22,15 @@ public:
 
 	~Vec() {}
 
+	Vec operator=(const Vec &aux){
+
+		for (int i = 0; i < 3; i++)
+		{
+			vec[i] = aux.vec[i];
+		};
+
+	}
+
 	Vec operator + (const Vec &vecaux) const{
 		//Vec aux;
 

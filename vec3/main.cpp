@@ -28,6 +28,8 @@ int main() {
 	//myvec.reset();
 	//myvec.print();
 
+	//myvec = myvec2;
+	//myvec.print();
 
 	system("pause");
 	return 0;
