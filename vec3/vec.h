@@ -1,13 +1,13 @@
 #ifndef _VEC_H_
 
-
+template <class TYPE>
 class Vec {
 
 public:
 
-	int vec[3];
+	TYPE vec[3];
 
-	Vec(int x, int y, int z) {
+	Vec(TYPE x, TYPE y, TYPE z) {
 
 
 		vec[0] = x;
@@ -22,19 +22,23 @@ public:
 
 	~Vec() {}
 
-	Vec operator=(const Vec &aux){
+	Vec operator=(const Vec &vecaux){
 
-		for (int i = 0; i < 3; i++)
+		Vec aux;
+
+		for (TYPE i = 0; i < 3; i++)
 		{
-			vec[i] = aux.vec[i];
+			aux.vec[i] = vecaux.vec[i];
 		};
+
+		return aux;
 
 	}
 
 	Vec operator + (const Vec &vecaux) const{
 		//Vec aux;
 
-		//for (int i = 0; i < 3; i++)
+		//for (TYPE i = 0; i < 3; i++)
 		//{
 		//	aux.vec[i]=vec[i] + vecaux.vec[i];
 		//}
@@ -45,7 +49,7 @@ public:
 	Vec operator -(const Vec &vecaux)const {
 		Vec aux;
 
-		for (int i = 0; i < 3; i++)
+		for (TYPE i = 0; i < 3; i++)
 		{
 			aux.vec[i] = vec[i] - vecaux.vec[i];
 		}
@@ -54,35 +58,35 @@ public:
 	}
 
 	void operator+=(const Vec &aux) {
-		for (int i = 0; i < 3; i++)
+		for (TYPE i = 0; i < 3; i++)
 		{
 			vec[i] += aux.vec[i];
 		}
 	}
 
 	void operator-=(const Vec &aux) {
-		for (int i = 0; i < 3; i++)
+		for (TYPE i = 0; i < 3; i++)
 		{
 			vec[i] -= aux.vec[i];
 		}
 	}
 
-	void operator * (int scalar) {
-		for (int i = 0; i < 3; i++)
+	void operator * (TYPE scalar) {
+		for (TYPE i = 0; i < 3; i++)
 		{
 			vec[i] *= scalar;
 		}
 	}
 
 	void reset() {
-		for (int i = 0; i < 3; i++)
+		for (TYPE i = 0; i < 3; i++)
 		{
 			vec[i] = 0;
 		}
 	}
 
 	void print() {
-		for (int i = 0; i < 3; i++)
+		for (TYPE i = 0; i < 3; i++)
 		{
 			cout << vec[i] << endl;
 		}

@@ -6,14 +6,17 @@ using namespace std;
 
 int main() {
 
-	Vec  myvec(1, 2, 3);
-	Vec  myvec2(10, 9, 8);
+	Vec <int>  myvec(3, 5, 8);
+	Vec <int> myvec2(4, 6, 9);
 	
+	Vec<int> res=myvec = myvec2=myvec;
+	res.print();
 
-	//Vec result=myvec + myvec2;
+
+	//Vec <int> result=myvec + myvec2;
 	//result.print();
 
-	//Vec result = myvec - myvec2;
+	//Vec <int> result = myvec - myvec2;
 	//result.print();
 
 	//myvec += myvec2;
@@ -28,8 +31,6 @@ int main() {
 	//myvec.reset();
 	//myvec.print();
 
-	//myvec = myvec2;
-	//myvec.print();
 
 	system("pause");
 	return 0;
