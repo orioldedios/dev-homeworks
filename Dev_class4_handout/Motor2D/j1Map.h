@@ -8,19 +8,43 @@
 
 // TODO 2: Create a struct to hold information for a TileSet
 // Ignore Terrain Types and Tile Types for now, but we want the image!
+// ----------------------------------------------------
 
 struct TileSet
 {
-	unsigned int firstgid=0,tilewidht=0,tileheight=0,spacing=0,margin=0;
-	char* name;
+	unsigned int firstgid = 0, tilewidht = 0, tileheight = 0, spacing = 0, margin = 0;
+	char* name=nullptr;
 
 };
-
-// ----------------------------------------------------
 
 
 // TODO 1: Create a struct needed to hold the information to Map node
 
+enum ORIENTATION {
+	default,
+	orthogonal,
+	isometric,
+	staggered,
+	hexagonal,
+	MAX_ORIENTATION
+};
+
+enum RENDERORDER
+{
+	rightdown,
+	rightup,
+	leftdown,
+	leftup,
+	MAX_RENDERORDER
+};
+
+struct Map
+{
+	float version = 0;
+	unsigned int width, height = 0, tilewidth = 0, tileheight = 0, nextobjectid = 0;
+	RENDERORDER renderorder = rightdown;
+	ORIENTATION orientation = default;
+};
 
 // ----------------------------------------------------
 class j1Map : public j1Module
@@ -46,40 +70,30 @@ public:
 
 private:
 
+	//LoadMap
+	void LoadMapInfo();
+
+	//LoadATileset
+	void LoadTileset();
 
 public:
 
 	// TODO 1: Add your struct for map info as public for now
 
-	enum ORIENTATION {
-		default,
-		orthogonal,
-		isometric,
-		staggered,
-		hexagonal
-	};
-
-	enum RENDERORDER
-	{
-		rightdown,
-		rightup,
-		leftdown,
-		leftup
-	};
-
-	struct Map
-	{
-		float version=0;
-		unsigned int width, height=0, tilewidth=0, tileheight=0, nextobjectid=0;
-		RENDERORDER renderorder=rightdown;
-		ORIENTATION orientation=default;
-	};
+	Map mymap;
+	TileSet mytileset;
 
 private:
 
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
+
+	pugi::xml_node mynode;
+
+	pugi::xml_node TileSetNode;
+
+
 };
 
 #endif // __j1MAP_H__
