@@ -68,16 +68,13 @@ bool j1Map::Load(const char* file_name)
 	{
 		// TODO 3: Create and call a private function to load and fill
 		// all your map data
-		
-		void LoadMapInfo()
-		
-		
 
+		LoadMapInfo();
 	}
 
 	// TODO 4: Create and call a private function to load a tileset
 	// remember to support more any number of tilesets!
-	
+	LoadTileset();
 
 	if(ret == true)
 	{
@@ -90,3 +87,82 @@ bool j1Map::Load(const char* file_name)
 	return ret;
 }
 
+void j1Map::LoadMapInfo() {
+
+
+	pugi::xml_parse_result result = map_file.load_file("maps/elloiro.tmx");
+
+	assert(result);
+		mynode = map_file.document_element();
+
+		mymap.version = mynode.attribute("version").as_float();
+		mymap.height= mynode.attribute("height").as_uint();
+		mymap.width = mynode.attribute("width").as_uint();
+		mymap.nextobjectid = mynode.attribute("nextobjectid").as_uint();
+		mymap.tileheight= mynode.attribute("tileheight").as_uint();
+		mymap.tilewidth = mynode.attribute("tilewidth").as_uint();
+
+
+		if (strcmp(mynode.attribute("renderorder").value(), "right-down")==0)
+		{
+			mymap.renderorder= RENDERORDER::rightdown;
+		}
+		else if (strcmp(mynode.attribute("renderorder").value(), "right-up") == 0)
+		{
+			mymap.renderorder = RENDERORDER::rightup;
+		}
+		else if (strcmp(mynode.attribute("renderorder").value(), "left-down") == 0)
+		{
+			mymap.renderorder = RENDERORDER::leftdown;
+		}
+		else if (strcmp(mynode.attribute("renderorder").value(), "left-up") == 0)
+		{
+			mymap.renderorder = RENDERORDER::leftup;
+		}
+		else
+		{
+			LOG("ERROR LOADING RENDERORDER\n");
+		}
+
+
+		if (strcmp(mynode.attribute("orientation").value(), "default") == 0)
+		{
+			mymap.orientation = ORIENTATION::default;
+		}
+		else if (strcmp(mynode.attribute("orientation").value(), "orthogonal") == 0)
+		{
+			mymap.orientation = ORIENTATION::orthogonal;
+		}
+		else if (strcmp(mynode.attribute("orientation").value(), "isometric") == 0)
+		{
+			mymap.orientation = ORIENTATION::isometric;
+		}
+		else if (strcmp(mynode.attribute("orientation").value(), "staggered") == 0)
+		{
+			mymap.orientation = ORIENTATION::staggered;
+		}
+		else if (strcmp(mynode.attribute("orientation").value(), "hexagonal") == 0)
+		{
+			mymap.orientation = ORIENTATION::hexagonal;
+		}
+		else
+		{
+			LOG("ERROR LOADING ORIENTATION\n");
+		}
+
+}
+
+void j1Map::LoadTileset() {
+
+	pugi::xml_parse_result result = map_file.load_file("maps/elloiro.tmx");
+
+	assert(result);
+	TileSetNode = map_file.document_element();
+
+	TileSetNode = TileSetNode.child("tileset");
+
+	mytileset.firstgid = TileSetNode.attribute("firstgid").as_uint();
+	mytileset.margin= TileSetNode.attribute("margin").as_uint();
+	mytileset.name= TileSetNode.attribute("name").value();
+
+}
