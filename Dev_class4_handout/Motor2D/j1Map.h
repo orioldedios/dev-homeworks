@@ -12,7 +12,7 @@
 
 struct TileSet
 {
-	unsigned int firstgid = 0, tilewidht = 0, tileheight = 0, spacing = 0, margin = 0;
+	unsigned int firstgid = 0, tilewidth = 0, tileheight = 0, spacing = 0, margin = 0;
 	char* name=nullptr;
 
 };
@@ -83,7 +83,10 @@ public:
 	Map mymap;
 	TileSet mytileset;
 
+	uint num_tileset = 0;
+
 private:
+
 
 	pugi::xml_document	map_file;
 	p2SString			folder;

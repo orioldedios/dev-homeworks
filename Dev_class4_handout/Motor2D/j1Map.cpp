@@ -33,6 +33,19 @@ void j1Map::Draw()
 
 	// TODO 6: Iterate all tilesets and draw all their 
 	// images in 0,0 (you should have only one tileset for now)
+	
+	SDL_Texture* backbround_tileset = nullptr;
+	
+		for (pugi::xml_node tileset = map_file.child("map").child("tileset"); tileset; tileset = tileset.next_sibling("tileset")) {
+
+			p2SString backg("maps/%s.png", mytileset.name);
+
+			backbround_tileset = App->tex->Load(backg.GetString());
+
+		App->render->Blit(backbround_tileset, 0, 0);
+		num_tileset++;
+	}
+
 
 }
 
@@ -76,10 +89,15 @@ bool j1Map::Load(const char* file_name)
 	// remember to support more any number of tilesets!
 	LoadTileset();
 
-	if(ret == true)
+	if (ret == true)
 	{
 		// TODO 5: LOG all the data loaded
 		// iterate all tilesets and LOG everything
+		LOG("\nSuccessfully phrased map XML----------\nFile: %s\nwidth: %u\nheigth: %u\ntile_width: %u\ntile_heigth: %u\n", file_name, mymap.width, mymap.height, mymap.tilewidth, mymap.tileheight);
+
+		for (pugi::xml_node tileset = map_file.child("map").child("tileset"); tileset; tileset = tileset.next_sibling("tileset")) {
+			LOG("TileSet ----- \nName: %s\nfirstgid: %u\ntile_width: %u\ntileheight: %u\nspacing: %u\nmargin: %u", mytileset.name, mytileset.firstgid, mytileset.tilewidth, mytileset.tileheight, mytileset.spacing, mytileset.margin);
+		}
 	}
 
 	map_loaded = ret;
@@ -89,11 +107,10 @@ bool j1Map::Load(const char* file_name)
 
 void j1Map::LoadMapInfo() {
 
+	//pugi::xml_parse_result result = map_file.load_file("maps/elloiro.tmx");
 
-	pugi::xml_parse_result result = map_file.load_file("maps/elloiro.tmx");
-
-	assert(result);
-		mynode = map_file.document_element();
+	//assert(result);
+	mynode = map_file.document_element();
 
 		mymap.version = mynode.attribute("version").as_float();
 		mymap.height= mynode.attribute("height").as_uint();
@@ -154,15 +171,20 @@ void j1Map::LoadMapInfo() {
 
 void j1Map::LoadTileset() {
 
-	pugi::xml_parse_result result = map_file.load_file("maps/elloiro.tmx");
+	for (pugi::xml_node tileset = map_file.child("map").child("tileset"); tileset; tileset = tileset.next_sibling("tileset")) {
 
-	assert(result);
-	TileSetNode = map_file.document_element();
+		/*pugi::xml_parse_result result = map_file.load_file("maps/elloiro.tmx");
 
-	TileSetNode = TileSetNode.child("tileset");
+		assert(result);*/
+		//TileSetNode = map_file.document_element();
 
-	mytileset.firstgid = TileSetNode.attribute("firstgid").as_uint();
-	mytileset.margin= TileSetNode.attribute("margin").as_uint();
-	mytileset.name= TileSetNode.attribute("name").value();
+		//TileSetNode = TileSetNode.child("tileset");
 
+		mytileset.firstgid = tileset.attribute("firstgid").as_uint();
+		mytileset.margin = tileset.attribute("margin").as_uint();
+		mytileset.name = (char*)tileset.attribute("name").value();
+		mytileset.spacing = tileset.attribute("spacing").as_uint();
+		mytileset.tileheight = tileset.attribute("tileheight").as_uint();
+		mytileset.tilewidth = tileset.attribute("tilewidth").as_uint();
+	}
 }
