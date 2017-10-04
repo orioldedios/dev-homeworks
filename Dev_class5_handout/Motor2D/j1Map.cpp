@@ -32,6 +32,22 @@ void j1Map::Draw()
 		return;
 
 	// TODO 5: Prepare the loop to draw all tilesets + Blit
+	SDL_Rect rect;
+
+	for (p2List_item<Layer*>* layer= data.layers.start; layer!=nullptr;layer=layer->next)
+	{
+		int k = 0;
+		for (int j = 0; j < layer->data->height; j++) {
+
+			for (int i = 0; i < layer->data->width; i++)
+			{
+				rect = this->data.tilesets.start->data->GetTileRect(layer->data->data[k]);
+				App->render->Blit(this->data.tilesets.start->data->texture, i * 32, j * 32, &rect);
+				k++;
+
+			}
+		}
+	}
 
 		// TODO 9: Complete the draw function
 
@@ -136,6 +152,29 @@ bool j1Map::Load(const char* file_name)
 
 	// TODO 4: Iterate all layers and load each of them
 	// Load layer info ----------------------------------------------
+
+
+
+
+
+
+		pugi::xml_node iterator;
+	for (iterator = map_file.child("map").child("layer"); iterator && ret; iterator = iterator.next_sibling("layer"))
+	{
+		Layer* set = new Layer;
+
+		if (ret == true)
+		{
+			LoadLayer(iterator, set);
+		}
+
+		data.layers.add(set);
+
+	}
+
+
+
+
 
 
 	if(ret == true)
@@ -308,10 +347,25 @@ bool j1Map::LoadLayer(pugi::xml_node& node, Layer* layer)
 	layer->height = node.attribute("height").as_uint();
 	layer->width = node.attribute("width").as_uint();
 
-	Layer* lay = new Layer;
-	//memset(&node, 0, data.layers.end);
+
+	for (pugi::xml_node iterator = node.child("data").child("tile"); iterator!=nullptr; iterator=iterator.next_sibling())
+	{
+		layer->size_data++;
+	}
+
+	layer->data = new uint[layer->size_data];
 
 
+	//Layer* lay = new Layer;
+	//memset(layer->data, 0, layer->size_data);
+
+	int i = 0;
+
+	for (pugi::xml_node iterator = node.child("data").child("tile"); iterator != nullptr; iterator = iterator.next_sibling())
+	{
+		layer->data[i]=iterator.attribute("git").as_uint();
+		i++;
+	}
 
 	return true;
 }
