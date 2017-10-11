@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Input.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -368,4 +369,14 @@ bool j1Map::LoadLayer(pugi::xml_node& node, Layer* layer)
 	}
 
 	return true;
+}
+
+	iPoint j1Map::GetPosition(int x,int y){
+
+	int rectx = x / data.tile_width;
+	int recty = y / data.tile_height;
+
+	iPoint position(rectx, recty);
+
+	return position;
 }
