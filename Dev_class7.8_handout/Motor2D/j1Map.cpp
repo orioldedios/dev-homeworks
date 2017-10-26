@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Input.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -106,6 +107,49 @@ void j1Map::PropagateDijkstra()
 	}
 
 
+}
+
+void j1Map::PropagateAStar() 
+{
+	iPoint curr;
+	if (visited.find(goal_point)==-1)
+	{
+		if (frontier.Pop(curr))
+		{
+			iPoint neighbors[4];
+			neighbors[0].create(curr.x + 1, curr.y + 0);
+			neighbors[1].create(curr.x + 0, curr.y + 1);
+			neighbors[2].create(curr.x - 1, curr.y + 0);
+			neighbors[3].create(curr.x + 0, curr.y - 1);
+
+			for (uint i = 0; i < 4; ++i)
+			{
+				if (MovementCost(neighbors[i].x, neighbors[i].y) >= 0)
+				{
+					int new_cost = cost_so_far[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
+					if (cost_so_far[neighbors[i].x][neighbors[i].y] == 0 ||
+						new_cost < cost_so_far[neighbors[i].x][neighbors[i].y])
+					{
+						cost_so_far[neighbors[i].x][neighbors[i].y] = new_cost;
+						new_cost = Square_distance(neighbors[i], goal_point);
+						frontier.Push(neighbors[i], new_cost);
+						visited.add(neighbors[i]);
+						breadcrumbs.add(curr);
+					}
+				}
+			}
+		}
+	}
+}
+
+inline int j1Map::Manhattan_distance(iPoint a,iPoint b)
+{
+	return abs(b.x - a.x) + abs(b.y - a.y);
+}
+
+inline int j1Map::Square_distance(iPoint a, iPoint b)
+{
+	return sqrt((b.x - a.x)*(b.x - a.x) + (b.y - a.y)*(b.y - a.y));
 }
 
 int j1Map::MovementCost(int x, int y) const

@@ -136,6 +136,11 @@ public:
 	// Propagation style
 	void PropagateBFS();
 	void PropagateDijkstra();
+	void PropagateAStar();
+
+	// Heuristic methods
+	int Manhattan_distance(iPoint,iPoint);
+	int Square_distance(iPoint, iPoint);
 
 private:
 
@@ -150,6 +155,8 @@ private:
 public:
 
 	MapData data;
+
+	iPoint goal_point;
 
 private:
 
