@@ -124,7 +124,7 @@ void j1Map::PropagateAStar()
 
 			for (uint i = 0; i < 4; ++i)
 			{
-				if (MovementCost(neighbors[i].x, neighbors[i].y) >= 0)
+				if (MovementCost(neighbors[i].x, neighbors[i].y) == 3)
 				{
 					int new_cost = cost_so_far[curr.x][curr.y] + MovementCost(neighbors[i].x, neighbors[i].y);
 					if (cost_so_far[neighbors[i].x][neighbors[i].y] == 0 ||
