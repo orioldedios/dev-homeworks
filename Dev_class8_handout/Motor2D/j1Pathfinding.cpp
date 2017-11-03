@@ -211,9 +211,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 	PathList neighbours;
 
-	Close.Find(last_path.At(0));
-
-	FindWalkableAdjacents(&neighbours);
+	Close.Find(last_path[0])->data.FindWalkableAdjacents(neighbours);
 	
 
 	// TODO 6: Iterate adjancent nodes:
