@@ -21,6 +21,8 @@
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
+	constructor_timer.Start();
+
 	input = new j1Input();
 	win = new j1Window();
 	render = new j1Render();
@@ -42,6 +44,10 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	// render last to swap buffer
 	AddModule(render);
+
+	uint32 i = constructor_timer.Read();
+
+	LOG("Constructor took %lf ms", (double)i);
 }
 
 // Destructor
@@ -68,6 +74,8 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
+	awake_timer.Start();
+
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
 	pugi::xml_node		app_config;
@@ -97,12 +105,18 @@ bool j1App::Awake()
 		}
 	}
 
+	uint32 i = awake_timer.Read();
+
+	LOG("Awake took %lf ms", (double)i);
+
 	return ret;
 }
 
 // Called before the first frame
 bool j1App::Start()
 {
+	start_timer.Start();
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -112,6 +126,12 @@ bool j1App::Start()
 		ret = item->data->Start();
 		item = item->next;
 	}
+
+	uint32 i = start_timer.Read();
+
+	LOG("Start took %lf ms", (double)i);
+
+
 	return ret;
 }
 
@@ -255,6 +275,8 @@ bool j1App::PostUpdate()
 // Called before quitting
 bool j1App::CleanUp()
 {
+	cleanup_timer.Start();
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.end;
@@ -264,6 +286,11 @@ bool j1App::CleanUp()
 		ret = item->data->CleanUp();
 		item = item->prev;
 	}
+
+	uint32 i = cleanup_timer.Read();
+
+	LOG("CleanUp took %lf ms", (double)i);
+
 	return ret;
 }
 

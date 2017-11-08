@@ -89,6 +89,12 @@ public:
 	j1Map*				map = NULL;
 	j1PathFinding*		pathfinding = NULL;
 
+	//timers
+	j1Timer constructor_timer;
+	j1Timer awake_timer;
+	j1Timer start_timer;
+	j1Timer cleanup_timer;
+
 private:
 
 	p2List<j1Module*>	modules;
