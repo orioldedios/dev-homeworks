@@ -90,10 +90,7 @@ public:
 	j1PathFinding*		pathfinding = NULL;
 
 	//timers
-	j1Timer constructor_timer;
-	j1Timer awake_timer;
-	j1Timer start_timer;
-	j1Timer cleanup_timer;
+	j1PerfTimer app_timer;
 
 private:
 

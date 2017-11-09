@@ -6,7 +6,7 @@
 #include "j1PerfTimer.h"
 #include "SDL\include\SDL_timer.h"
 
-uint64 j1PerfTimer::frequency = 1000;
+uint64 j1PerfTimer::frequency = SDL_GetPerformanceFrequency();
 
 // ---------------------------------------------
 j1PerfTimer::j1PerfTimer()
@@ -26,13 +26,13 @@ void j1PerfTimer::Start()
 // ---------------------------------------------
 double j1PerfTimer::ReadMs() const
 {
-	return  SDL_GetPerformanceCounter() -started_at;
+	return  1000*((double)(SDL_GetPerformanceCounter() - started_at)/ (double)(frequency));
 }
 
 // ---------------------------------------------
 uint64 j1PerfTimer::ReadTicks() const
 {
-	return SDL_GetPerformanceFrequency();
+	return (SDL_GetPerformanceCounter() - started_at);
 }
 
 
