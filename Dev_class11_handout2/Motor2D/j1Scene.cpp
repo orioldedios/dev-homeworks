@@ -32,20 +32,23 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	if(App->map->Load("iso_walk.tmx") == true)
-	{
-		int w, h;
-		uchar* data = NULL;
-		if(App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
+	//if(App->map->Load("iso_walk.tmx") == true)
+	//{
+	//	int w, h;
+	//	uchar* data = NULL;
+	//	if(App->map->CreateWalkabilityMap(w, h, &data))
+	//		App->pathfinding->SetMap(w, h, data);
 
-		RELEASE_ARRAY(data);
-	}
+	//	RELEASE_ARRAY(data);
+	//}
 
-	debug_tex = App->tex->Load("maps/path2.png");
+	//debug_tex = App->tex->Load("maps/path2.png");
 
 	// TODO 3: Create the banner (rect {485, 829, 328, 103}) and the text "Hello World"
-
+	banner = (Image*)App->gui->CreateImage({ 0,0 }, IMAGE, { 485, 829, 328, 103 });
+	text = (Text*)App->gui->CreateText({ 0,-25 }, TEXT,"Hola mundo!",nullptr);
+	back = (NoAtlasImage*)App->gui->CreateNoAtlasImage({ 0,0 }, NO_ATLAS_IMAGE, App->gui->GetNoAtlas(), {0,0,1032,774});
+	
 	return true;
 }
 
@@ -83,7 +86,9 @@ bool j1Scene::PreUpdate()
 bool j1Scene::Update(float dt)
 {
 	// Gui ---
-	
+	back->Update();
+	//banner->Update();
+	//text->Update();
 	// -------
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
@@ -133,6 +138,7 @@ bool j1Scene::Update(float dt)
 		App->render->Blit(debug_tex, pos.x, pos.y);
 	}
 
+	//App->render->Blit(debug_tex, banner->position.x, banner->position.y, &banner->Image_Rect);
 	return true;
 }
 

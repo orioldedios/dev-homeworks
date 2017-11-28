@@ -5,7 +5,6 @@
 #include "j1Fonts.h"
 
 #include "SDL\include\SDL.h"
-#include "SDL_TTF\include\SDL_ttf.h"
 #pragma comment( lib, "SDL_ttf/libx86/SDL2_ttf.lib" )
 
 j1Fonts::j1Fonts() : j1Module()
@@ -92,7 +91,7 @@ SDL_Texture* j1Fonts::Print(const char* text, SDL_Color color, TTF_Font* font)
 }
 
 // calculate size of a text
-bool j1Fonts::CalcSize(const char* text, int& width, int& height, _TTF_Font* font) const
+bool j1Fonts::CalcSize(const char* text, int& width, int& height, TTF_Font* font) const
 {
 	bool ret = false;
 

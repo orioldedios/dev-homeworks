@@ -4,8 +4,9 @@
 #include "j1Module.h"
 
 struct SDL_Texture;
-class GuiImage;
-class GuiText;
+class Image;
+class Text;
+class NoAtlasImage;
 
 class j1Scene : public j1Module
 {
@@ -36,8 +37,39 @@ public:
 
 private:
 	SDL_Texture* debug_tex;
-	GuiImage* banner;
-	GuiText* text;
+	NoAtlasImage* back;
+	Image* banner;
+	Text* text;
+
+	Text* AccountName;
+	Text* AccountPasword;
+	Text* Login;
+	Text* ManageAccount;
+	Text* CommunitySite;
+	Text* RememberAccountName;
+	Text* Version;
+	Text* DateVersion;
+	Text* CopyRight;
+	Text* Cinematics;
+	Text* Credits;
+	Text* TermsOfUse;
+	Text* Quit;
+	Text* wowpsorg;
+
+	Image*
+	Image*
+	Image*
+	Image*
+	Image*
+	Image*
+	Image*
+	Image*
+	Image*
+	Image*
+	Image*
+	Image*
+	Image*
+
 };
 
 #endif // __j1SCENE_H__
