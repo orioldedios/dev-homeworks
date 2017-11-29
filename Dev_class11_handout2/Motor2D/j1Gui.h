@@ -15,6 +15,13 @@ enum UI_Elem_type
 	NO_ATLAS_IMAGE
 };
 
+enum EVENT
+{
+	NO_EVENT_TYPE,
+	MOUSE_ENTER,
+	MOUSE_LEAVE
+};
+
 class UI_Elem 
 {
 public:
@@ -91,11 +98,18 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	// Check Mouse
+	EVENT MouseIn(const SDL_Rect button_rect);	 
+
 	// TODO 2: Create the factory methods
 	// Gui creation functions
 	UI_Elem* CreateImage(iPoint position, UI_Elem_type type, SDL_Rect ImageRect);
 	UI_Elem* CreateText(iPoint position, UI_Elem_type type, char* string_text, TTF_Font* text_font);
 	UI_Elem* CreateNoAtlasImage(iPoint position, UI_Elem_type type, SDL_Texture* texture, SDL_Rect rect);
+
+	p2List<j1Module*> listeners;
+
+	j1Module* listener1 = nullptr;
 
 	const SDL_Texture* GetAtlas() const;
 	SDL_Texture* GetNoAtlas();

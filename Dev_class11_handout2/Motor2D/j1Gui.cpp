@@ -104,7 +104,9 @@ bool NoAtlasImage::Update()
 	App->render->Blit(this->texture, this->position.x, this->position.y, &this->rect);
 	return true;
 }
+
 NoAtlasImage::~NoAtlasImage() {}
+
 		
 //---------------------------------------------Constructors-----------------------------------------
 UI_Elem::UI_Elem(iPoint position, UI_Elem_type type) : position(position), type(type) {}
@@ -143,6 +145,34 @@ UI_Elem* j1Gui::CreateNoAtlasImage(iPoint position, UI_Elem_type type, SDL_Textu
 	UIelementsList.add(noAtlasElem);
 
 	return noAtlasElem;
+}
+
+//Buttons
+
+EVENT j1Gui::MouseIn(const SDL_Rect button_rect)
+{
+	EVENT res = MOUSE_LEAVE;
+
+	int m_x, m_y;
+	App->input->GetMousePosition(m_x, m_y);
+
+	if (m_x < button_rect.x && m_x > button_rect.x + button_rect.w &&
+		m_y < button_rect.y && m_y > button_rect.y + button_rect.h)
+	{
+		res = MOUSE_LEAVE;
+		SDL_Rect rect;
+		rect.x = 123;
+		rect.y = 55;
+		rect.w = 65;
+		rect.h = 55;
+		App->render->Blit(atlas, 0, 0, &rect);
+	}
+	else
+	{
+		res = MOUSE_ENTER;
+	}
+
+	return res;
 }
 
 

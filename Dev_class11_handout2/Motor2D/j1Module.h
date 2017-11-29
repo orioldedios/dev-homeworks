@@ -72,6 +72,14 @@ public:
 		return true;
 	}
 
+	//Gui button method
+	//virtual bool EventRecieved (const UI_Elem* elem_triggered, const EVENT& event_type)
+	//{
+	//	bool ret = false;
+
+	//	return ret;
+	//}
+
 public:
 
 	p2SString	name;
