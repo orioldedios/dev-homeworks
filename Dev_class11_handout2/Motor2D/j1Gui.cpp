@@ -3,7 +3,6 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Textures.h"
-#include "j1Fonts.h"
 #include "j1Input.h"
 #include "j1Gui.h"
 
@@ -78,44 +77,50 @@ SDL_Texture* j1Gui::GetNoAtlas()
 
 // class Gui ---------------------------------------------------
 
-bool	UI_Elem:: Update() { return true; }
-UI_Elem::~UI_Elem() {}
-
-bool	NO_Interactuable::Update(){ return true; }
-NO_Interactuable::~NO_Interactuable() {}
-
-bool	Image:: Update() 
-{ 
-	App->render->Blit((SDL_Texture*)App->gui->GetAtlas(),this->position.x,this->position.y,&this->Image_Rect);
-	return true; 
-}
-
-Image::~Image() {}
-
-bool Text::Update()
-{
-	App->render->Blit(App->font->Print(this->string, { 255,0,0,255 }, this->text_font),this->position.x,this->position.y);
-	return true; 
-}
-Text::~Text() {}
-
-bool NoAtlasImage::Update()
-{
-	App->render->Blit(this->texture, this->position.x, this->position.y, &this->rect);
-	return true;
-}
-
-NoAtlasImage::~NoAtlasImage() {}
-
-		
 //---------------------------------------------Constructors-----------------------------------------
 UI_Elem::UI_Elem(iPoint position, UI_Elem_type type) : position(position), type(type) {}
 NO_Interactuable::NO_Interactuable(iPoint position, UI_Elem_type type) : UI_Elem(position, type) {}
 Image::Image(iPoint position, UI_Elem_type type, SDL_Rect rect) : NO_Interactuable(position, type), Image_Rect(rect) {}
 Text::Text(iPoint position, UI_Elem_type type,char* string_text, TTF_Font* text_font) : NO_Interactuable(position, type), string(string_text), text_font(text_font){}
-NoAtlasImage::NoAtlasImage(iPoint position,UI_Elem_type type, SDL_Texture* texture, SDL_Rect rect) : NO_Interactuable(position,type), texture(texture), rect(rect) {}
+NoAtlasImage::NoAtlasImage(iPoint position, UI_Elem_type type, SDL_Texture* texture, SDL_Rect rect) : NO_Interactuable(position,type), texture(texture), rect(rect) {}
+Interactuable::Interactuable(iPoint position, UI_Elem_type type, SDL_Rect rect) : UI_Elem(position, type), rect(rect) {}
+Button::Button(iPoint position, UI_Elem_type type, SDL_Rect rect) : Interactuable(position, type, rect) {}
 
+//---------------------------------------------Updates--------------------------------------------
+bool	UI_Elem::Update() { return true; }
+bool	NO_Interactuable::Update() { return true; }
+bool	Image::Update()
+{
+	App->render->Blit((SDL_Texture*)App->gui->GetAtlas(), this->position.x, this->position.y, &this->Image_Rect);
+	return true;
+}
+bool	Text::Update()
+{
+	App->render->Blit(App->font->Print(this->string, { 255,0,0,255 }, this->text_font), this->position.x, this->position.y);
+	return true;
+}
+bool	NoAtlasImage::Update()
+{
+	App->render->Blit(this->texture, this->position.x, this->position.y, &this->rect);
+	return true;
+}
+bool	Interactuable::Update() { return true; }
+bool	Button::Update()
+{ 
+	App->render->Blit((SDL_Texture*)App->gui->GetAtlas(), this->position.x, this->position.y, &this->rect);
+	return true; 
+}
 
+//---------------------------------------------Destructors-------------------------------------------
+UI_Elem::~UI_Elem() {}
+NO_Interactuable::~NO_Interactuable() {}
+Image::~Image() {}
+Text::~Text() {}
+NoAtlasImage::~NoAtlasImage() {}
+Interactuable::~Interactuable() {}
+Button::~Button() {}
+
+//-------------------------------------------Factory Methods------------------------------------------
 UI_Elem* j1Gui::CreateImage(iPoint position, UI_Elem_type type, SDL_Rect ImageRect)
 {
 	UI_Elem* elemImage = nullptr;
@@ -125,7 +130,6 @@ UI_Elem* j1Gui::CreateImage(iPoint position, UI_Elem_type type, SDL_Rect ImageRe
 	UIelementsList.add(elemImage);
 	return elemImage;
 }
-
 UI_Elem* j1Gui::CreateText(iPoint position, UI_Elem_type type, char* string_text, TTF_Font* text_font)
 {
 	UI_Elem* elemText = nullptr;
@@ -135,7 +139,6 @@ UI_Elem* j1Gui::CreateText(iPoint position, UI_Elem_type type, char* string_text
 	UIelementsList.add(elemText);
 	return elemText;
 }
-
 UI_Elem* j1Gui::CreateNoAtlasImage(iPoint position, UI_Elem_type type, SDL_Texture* texture, SDL_Rect rect)
 {
 	UI_Elem* noAtlasElem = nullptr;
@@ -146,30 +149,43 @@ UI_Elem* j1Gui::CreateNoAtlasImage(iPoint position, UI_Elem_type type, SDL_Textu
 
 	return noAtlasElem;
 }
+UI_Elem* j1Gui::CreateButton(iPoint position, UI_Elem_type type, SDL_Rect ButtonRect) 
+{
+	UI_Elem* elemButton = nullptr;
 
-//Buttons
+	elemButton = new Image(position, type, ButtonRect);
 
-EVENT j1Gui::MouseIn(const SDL_Rect button_rect)
+	UIelementsList.add(elemButton);
+	return elemButton;
+}
+
+
+//Buttons----------------------------------------------------------------------------------------------
+EVENT Interactuable::CheckMouse(const SDL_Rect button_rect, const iPoint position)
 {
 	EVENT res = MOUSE_LEAVE;
 
 	int m_x, m_y;
 	App->input->GetMousePosition(m_x, m_y);
 
-	if (m_x < button_rect.x && m_x > button_rect.x + button_rect.w &&
-		m_y < button_rect.y && m_y > button_rect.y + button_rect.h)
+	if (m_x < button_rect.x+button_rect.w && m_x > position.x &&
+		m_y < button_rect.y+button_rect.h && m_y > position.y)
 	{
-		res = MOUSE_LEAVE;
-		SDL_Rect rect;
-		rect.x = 123;
-		rect.y = 55;
-		rect.w = 65;
-		rect.h = 55;
-		App->render->Blit(atlas, 0, 0, &rect);
+		res = MOUSE_ENTER;
+		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+		{
+			res = MOUSE_LEFT_CLICK;
+		}
+		else if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		{
+			res = MOUSE_RIGHT_CLICK;
+			//test--------
+			//App->render->Blit(App->gui->atlas, 200, 200);
+		}
 	}
 	else
 	{
-		res = MOUSE_ENTER;
+		res = MOUSE_LEAVE;
 	}
 
 	return res;

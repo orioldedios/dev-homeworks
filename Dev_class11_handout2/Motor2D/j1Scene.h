@@ -68,6 +68,7 @@ private:
 	Image* credits_button;
 	Image* terms_of_use_button;
 	Image* quit_button;
+public:
 	Image* wow_logo;
 };
 
