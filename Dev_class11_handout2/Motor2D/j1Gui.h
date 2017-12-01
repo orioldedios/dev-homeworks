@@ -12,6 +12,7 @@ enum UI_Elem_type
 	NO_TYPE,
 	TEXT,
 	IMAGE,
+	BUTTON,
 	NO_ATLAS_IMAGE
 };
 
@@ -129,7 +130,7 @@ public:
 
 	p2List<j1Module*> listeners;
 
-	const SDL_Texture* GetAtlas() const;
+	SDL_Texture* GetAtlas() const;
 	SDL_Texture* GetNoAtlas();
 
 private:

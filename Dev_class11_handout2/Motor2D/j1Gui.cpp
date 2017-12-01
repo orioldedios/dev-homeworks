@@ -64,7 +64,7 @@ bool j1Gui::CleanUp()
 }
 
 // const getter for atlas
-const SDL_Texture* j1Gui::GetAtlas() const
+SDL_Texture* j1Gui::GetAtlas() const
 {
 	return atlas;
 }
@@ -87,27 +87,28 @@ Interactuable::Interactuable(iPoint position, UI_Elem_type type, SDL_Rect rect) 
 Button::Button(iPoint position, UI_Elem_type type, SDL_Rect rect) : Interactuable(position, type, rect) {}
 
 //---------------------------------------------Updates--------------------------------------------
-bool	UI_Elem::Update() { return true; }
-bool	NO_Interactuable::Update() { return true; }
-bool	Image::Update()
+bool UI_Elem::Update() { return true; }
+bool NO_Interactuable::Update() { return true; }
+bool Image::Update()
 {
 	App->render->Blit((SDL_Texture*)App->gui->GetAtlas(), this->position.x, this->position.y, &this->Image_Rect);
 	return true;
 }
-bool	Text::Update()
+bool Text::Update()
 {
 	App->render->Blit(App->font->Print(this->string, { 255,0,0,255 }, this->text_font), this->position.x, this->position.y);
 	return true;
 }
-bool	NoAtlasImage::Update()
+bool NoAtlasImage::Update()
 {
 	App->render->Blit(this->texture, this->position.x, this->position.y, &this->rect);
 	return true;
 }
-bool	Interactuable::Update() { return true; }
-bool	Button::Update()
+bool Interactuable::Update() { return true; }
+bool Button::Update()
 { 
 	App->render->Blit((SDL_Texture*)App->gui->GetAtlas(), this->position.x, this->position.y, &this->rect);
+	CheckMouse(this->rect,this->position);
 	return true; 
 }
 
@@ -153,7 +154,7 @@ UI_Elem* j1Gui::CreateButton(iPoint position, UI_Elem_type type, SDL_Rect Button
 {
 	UI_Elem* elemButton = nullptr;
 
-	elemButton = new Image(position, type, ButtonRect);
+	elemButton = new Button(position, type, ButtonRect);
 
 	UIelementsList.add(elemButton);
 	return elemButton;
@@ -168,19 +169,21 @@ EVENT Interactuable::CheckMouse(const SDL_Rect button_rect, const iPoint positio
 	int m_x, m_y;
 	App->input->GetMousePosition(m_x, m_y);
 
-	if (m_x < button_rect.x+button_rect.w && m_x > position.x &&
-		m_y < button_rect.y+button_rect.h && m_y > position.y)
+	if (m_x < position.x+button_rect.w && m_x > position.x &&
+		m_y < position.y+button_rect.h && m_y > position.y)
 	{
 		res = MOUSE_ENTER;
+		//test--------
+		App->render->Blit(App->gui->GetAtlas(), 200, 200);
+
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
 		{
 			res = MOUSE_LEFT_CLICK;
+
 		}
 		else if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 		{
 			res = MOUSE_RIGHT_CLICK;
-			//test--------
-			//App->render->Blit(App->gui->atlas, 200, 200);
 		}
 	}
 	else
